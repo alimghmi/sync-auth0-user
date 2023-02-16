@@ -1,0 +1,6 @@
+pandas
+pyodbc==4.0.35
+python-decouple
+requests
+SQLAlchemy
+urllib3
