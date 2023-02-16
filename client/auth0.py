@@ -1,4 +1,3 @@
-import json
 import time
 
 import requests
@@ -23,7 +22,6 @@ class Client:
         while retry < self.MAX_RETRIES:
             try:
                 response = requests.request(*args, **kwargs)
-                # print(response.json())
                 response.raise_for_status()
                 return response
 
@@ -47,7 +45,10 @@ class Client:
             "grant_type": "client_credentials",
         }
         response = self.request(
-            "POST", f"{self.AUTH0_URL}/oauth/token", headers=headers, json=payload
+            "POST",
+            f"{self.AUTH0_URL}/oauth/token",
+            headers=headers,
+            json=payload,
         )
         response.raise_for_status()
         return response.json()["access_token"]
@@ -61,8 +62,13 @@ class Client:
 
     def get_connection_users(self):
         url = f"{self.AUTH0_URL}/api/v2/users"
-        params = {"connection": self.AUTH0_CONNECTION, "search_engine": "v3"}
-        response = self.request("GET", url, headers=self.headers, params=params)
+        params = {
+            "connection": self.AUTH0_CONNECTION,
+            "search_engine": "v3",
+        }
+        response = self.request(
+            "GET", url, headers=self.headers, params=params
+        )
         response.raise_for_status()
         users = response.json()
         return users

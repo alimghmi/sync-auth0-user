@@ -67,7 +67,9 @@ class App:
         self.logger.info(f"Found {len(self.db_users)} users in the database.")
         self.logger.info(f"Found {len(self.users)} users in Auth0.")
         self.logger.info(f"Found {len(self.roles)} roles in Auth0.")
-        self.logger.info(f"Found {len(self.IGNROE_USERS)} users in ignore list")
+        self.logger.info(
+            f"Found {len(self.IGNROE_USERS)} users in ignore list"
+        )
         self.logger.info("Starting synchronization process...")
         self.sync_update_user_role()
         self.sync_add_user()
@@ -129,7 +131,9 @@ class App:
 
             if not any([role == role_id for role in self.users_roles[user]]):
                 for _role_id in self.users_roles[user]:
-                    self.api.unassign_role(auth0_user_data["user_id"], _role_id)
+                    self.api.unassign_role(
+                        auth0_user_data["user_id"], _role_id
+                    )
                     self.logger.info(
                         f'Unassign {_role_id} role to user {auth0_user_data["email"]} with ID {auth0_user_data["user_id"]}.'
                     )
@@ -153,7 +157,9 @@ class App:
             item["email"] = item["email"].lower().strip()
             return item
 
-        result = self.db.select_table("[clients].[users_mock]").to_dict("records")
+        result = self.db.select_table("[clients].[users_mock]").to_dict(
+            "records"
+        )
         return list(map(parse_data, result))
 
     def get_auth0_user(self):
@@ -175,7 +181,8 @@ class App:
                 for user_id in user_ids
             ]
             user_roles = {
-                user_id: result.get() for user_id, result in zip(user_emails, results)
+                user_id: result.get()
+                for user_id, result in zip(user_emails, results)
             }
 
         return user_roles
@@ -186,7 +193,9 @@ class App:
 
     def generate_user_list(self):
         self.user_list = [i["email"].lower().strip() for i in self.users]
-        self.db_user_list = [i["username"].lower().strip() for i in self.db_users]
+        self.db_user_list = [
+            i["username"].lower().strip() for i in self.db_users
+        ]
         return
 
     def translate_roles(self, db_role):
@@ -211,5 +220,5 @@ class App:
         try:
             roles = api.get_user_roles(user_id)
             return [role["id"] for role in roles]
-        except Exception as e:
+        except Exception:
             return []
