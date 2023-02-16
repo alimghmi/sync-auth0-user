@@ -44,5 +44,4 @@ Contributions are always welcome! If you'd like to contribute, please follow the
 
 ## License
 
-This app is licensed under the MIT License. See LICENSE for more information.# sync-auth0-user
-# sync-auth0-user
+This app is licensed under the MIT License. See LICENSE for more information.
