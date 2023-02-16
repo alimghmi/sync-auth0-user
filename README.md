@@ -18,7 +18,7 @@ To install and run the application, follow these steps:
    - `AUTH0_URL`: the Auth0 URL.
    - `AUTH0_CLIENT_ID`: the Auth0 client id.
    - `AUTH0_CLIENT_SECRET`: the Auth0 client secret.
-   - `AUTH0_CONNECTION`: the Auth0 connection name.
+   - `AUTH0_CONNECTION`: the Auth0 database connection name.
    - `CLIENT_IGNORE_USERS`: the list of users app ignore (comma seperated)
 
 ## Usage
