@@ -54,7 +54,7 @@ class App:
         self.logger = logging.getLogger()
         self.db = mssql.MSSQLDatabase()
         self.api = auth0.Client()
-        self.db_users = self.get_db_user()[:10]
+        self.db_users = self.get_db_user()
         self.roles = self.get_auth0_role()
         self.users = self.get_auth0_user()
         self.users_roles = self.fetch_user_role()
@@ -89,7 +89,7 @@ class App:
 
             role_id, _ = self.translate_roles(user_data["role"])
             user_id = self.add_auth0_user(
-                user_data["email"], user_data["password"], role_id
+                user_data["email"], 'qi&tR11bc!93@', role_id
             )
             self.logger.info(
                 f'Added new user {user_data["email"]}, with role {role_id} and ID {user_id}.'
@@ -153,14 +153,17 @@ class App:
 
     def get_db_user(self):
         def parse_data(item):
+            if not item['username']:
+                return False
+            
             item["username"] = item["username"].lower().strip()
             item["email"] = item["email"].lower().strip()
             return item
 
-        result = self.db.select_table("[clients].[users_mock]").to_dict(
+        result = self.db.select_table("[clients].[users]").to_dict(
             "records"
         )
-        return list(map(parse_data, result))
+        return [i for i in map(parse_data, result) if i]
 
     def get_auth0_user(self):
         users = self.api.get_connection_users()
